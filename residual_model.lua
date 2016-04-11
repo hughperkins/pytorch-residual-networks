@@ -32,5 +32,7 @@ function L.create()
 
   model = nn.gModule({input}, {model})
   return model
+end
+
 return L
 
