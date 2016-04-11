@@ -40,7 +40,7 @@ def loadPickle(path):
   with open(path, 'rb') as f:
     if pyversion == 2:
       import cPickle
-        return cPickle.load(f)
+      return cPickle.load(f)
     else:
       import pickle
       # not tested, maybe works ok? (no, it doesnt:
