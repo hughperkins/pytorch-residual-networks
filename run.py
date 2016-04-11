@@ -69,25 +69,7 @@ for i in range(num_datafiles):
 
 print('data loaded :-)')
 
-# now what .... ????
-
-# preprocessing I guess ....
-# mostly consists of:
-
-# from cifar-dataset.lua:
-#function CIFAR:preprocess(mean, std)
-#   mean = mean or self.data:mean(1)
-#   std = std or self.data:std() -- Complete std!
-#   self.data:add(-mean:expandAs(self.data)):mul(1/std)
-#   return mean,std
-#end
-
-# and from train-cifar.lua:
-#local mean,std = dataTrain:preprocess()
-#dataTest:preprocess(mean,std)
-
 # I think the mean and std are over all data, altogether, not specific to planes or pixel location?
-
 mean = trainData.mean()
 std = trainData.std()
 
@@ -97,4 +79,17 @@ trainData -= mean
 trainData /= std
 
 # now we just have to call the lua class I think :-)
+
+
+
+# set learning rate (was in lua)
+#   -- From https://github.com/bgshih/cifar.torch/blob/master/train.lua#L119-L128
+#   local sgdState = self.sgdState
+#   if sgdState.epochCounter < 80 then
+#      sgdState.learningRate = 0.1
+#   elseif sgdState.epochCounter < 120 then
+#      sgdState.learningRate = 0.01
+#   else
+#      sgdState.learningRate = 0.001
+#   end
 
