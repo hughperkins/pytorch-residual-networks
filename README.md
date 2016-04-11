@@ -1,6 +1,8 @@
 Deep Residual Learning for Image Recognition
 ============================================
 
+STATUS: DRAFT, IN PROGRESS. For the real (torch/lua) version, see https://github.com/gcr/torch-residual-networks/network for now please :-)
+
 This is a pytorch implementation of ["Deep Residual Learning for Image Recognition",Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun](http://arxiv.org/abs/1512.03385) the winners of the 2015 ILSVRC and COCO challenges.
 
 It's forked from Michael Wilber's torch-residual-networks.  The data loading and preprocessing have been moved from
