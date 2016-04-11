@@ -97,6 +97,8 @@ epoch = 0
 while True:
   learningRate = epochToLearningRate(epoch)
   # we have to populate batchInputs and batchLabels :-(
+  # seems there is a bunch of preprocessing to do :-P
+  # https://github.com/gcr/torch-residual-networks/blob/bc1bafff731091bb382bece58d8252291bfbf206/data/cifar-dataset.lua#L56-L75
   residualTrainer.trainBatch(learningRate, batchInputs, batchLabels)
   epoch += 1
 
