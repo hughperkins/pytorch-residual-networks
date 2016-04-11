@@ -1,6 +1,14 @@
 """
 This is being tested only on python 2.7 for now.  python 3.4 will surely follow in the future (or if
 you create an appropriate pull request :-) )
+
+Usage:
+  run.py [options]
+
+Options:
+  --batchSize BATCHSIZE      batchsize [default: 128]
+  --loadfrom LOADFROM        load from this model file [default: None]
+  --numlayergroups NUMLAYERGROUPS    number layer groups [default: 3]
 """
 from __future__ import print_function, division
 import platform
@@ -8,23 +16,17 @@ import sys
 import os
 from os import path
 from os.path import join
+from docopt import docopt
 import numpy as np
 import PyTorchHelpers
 
 
-opt = {}
-opt['batchSize'] = 128
-opt['iterSize'] = 1
-opt['Nsize'] = 3
-#opt['dataRoot'] = '/mnt/cifar'
-opt['loadFrom'] = ''
-
-#--    --batchSize     (default 128)    Sub-batch size
-#--    --iterSize      (default 1)     How many sub-batches in each batch
-#--    --Nsize        (default 3)     Model has 6*n+2 layers.
-#--    --dataRoot      (default /mnt/cifar) Data root folder
-#--    --loadFrom      (default "")    Model to load
-#--    --experimentName  (default "snapshots/cifar-residual-experiment1")
+args = docopt(__doc__)
+batchSize = int(args['--batchsize'])
+loadFrom = args['--loadfrom']
+if loadFrom == 'None':
+  loadFrom = None
+num_layer_groups = int(args['--numlayergroups'])
 
 data_dir = 'cifar-10-batches-py'
 num_datafiles = 5
@@ -47,12 +49,23 @@ def loadPickle(path):
       # "UnicodeDecodeError: 'ascii' codec can't decode byte 0x8b in position 6: ordinal not in range(128)")
       return pickle.load(f)
 
+def epochToLearningRate(epoch):
+   # From https://github.com/bgshih/cifar.torch/blob/master/train.lua#L119-L128
+   if epoch < 80 then
+      return 0.1
+   if epoch < 120 then
+      return 0.01
+   return 0.001
+
+
 # load the lua class
 ResidualTrainer = PyTorchHelpers.load_lua_class('residual_trainer.lua', 'ResidualTrainer')
-residualTrainer = ResidualTrainer(opt)
+residualTrainer = ResidualTrainer(num_layer_groups)
+if loadFrom is not None:
+  residualTrainer.loadFrom(loadFrom)
 print('residualTrainer', residualTrainer)
 
-#trainDatas = []
+# load training data
 trainData = None
 trainLabels = None
 NTrain = None
@@ -80,16 +93,10 @@ trainData /= std
 
 # now we just have to call the lua class I think :-)
 
-
-
-# set learning rate (was in lua)
-#   -- From https://github.com/bgshih/cifar.torch/blob/master/train.lua#L119-L128
-#   local sgdState = self.sgdState
-#   if sgdState.epochCounter < 80 then
-#      sgdState.learningRate = 0.1
-#   elseif sgdState.epochCounter < 120 then
-#      sgdState.learningRate = 0.01
-#   else
-#      sgdState.learningRate = 0.001
-#   end
+epoch = 0
+while True:
+  learningRate = epochToLearningRate(epoch)
+  # we have to populate batchInputs and batchLabels :-(
+  residualTrainer.trainBatch(learningRate, batchInputs, batchLabels)
+  epoch += 1
 

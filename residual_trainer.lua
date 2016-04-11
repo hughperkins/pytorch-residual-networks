@@ -52,7 +52,7 @@ function ResidualTrainer.__init(self, num_layer_groups)
   self.weights, self.gradients = model:getParameters()
 end
 
-function ResidualTrainer.loadModelFrom(self, filepath)
+function ResidualTrainer.loadFrom(self, filepath)
     print("Loading model from ".. filepath)
     cutorch.setDevice(1)
     self.model = torch.load(filepath)

@@ -11,7 +11,7 @@ For full readme please see https://github.com/gcr/torch-residual-networks/networ
 
 ## How to use
 
-- You need at least CUDA 7.0 and CuDNN v4.
+- You need at least CUDA 7.0 and CuDNN v4
 - Install Torch:
 ```
 git clone https://github.com/torch/distro.git ~/torch --recursive
@@ -27,8 +27,10 @@ luarocks install nninit
 ```
 - Setup python (tested on 2.7 for now; 3.4 will follow):
 ```
-virtualenv -p python27 env27
+sudo apt-get install python2.7-dev
+virtualenv -p python2.7 env27
 source env27/bin/activate
+pip install docopt
 pip install numpy
 ```
 - Install pytorch:
