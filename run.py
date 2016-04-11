@@ -64,8 +64,8 @@ for i in range(num_datafiles):
     trainData = np.zeros((NTrain, inputPlanes, inputWidth, inputHeight), np.float32)
     trainLabels = np.zeros(NTrain, np.uint8)
   data = d['data'].reshape(dataLength, inputPlanes, inputWidth, inputHeight)
-  trainData[i * dataLength:(i+1) * dataLength)] = data
-  trainLabels[i * dataLength:(i+1) * dataLength)] = d['labels']
+  trainData[i * dataLength:(i+1) * dataLength] = data
+  trainLabels[i * dataLength:(i+1) * dataLength] = d['labels']
 
 print('data loaded :-)')
 
