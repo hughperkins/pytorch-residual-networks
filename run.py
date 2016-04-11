@@ -62,7 +62,7 @@ for i in range(num_datafiles):
   NTrain = num_datafiles * dataLength
   if trainData is None:
     trainData = np.zeros((NTrain, inputPlanes, inputWidth, inputHeight), np.float32)
-    trainLabels = np.zeros(NTrain), np.uint8)
+    trainLabels = np.zeros(NTrain, np.uint8)
   data = d['data'].reshape(dataLength, inputPlanes, inputWidth, inputHeight)
   trainData[i * dataLength:(i+1) * dataLength)] = data
   trainLabels[i * dataLength:(i+1) * dataLength)] = d['labels']
