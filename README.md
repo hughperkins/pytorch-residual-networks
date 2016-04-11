@@ -12,9 +12,19 @@ For full readme please see https://github.com/gcr/torch-residual-networks/networ
 ## How to use
 
 - You need at least CUDA 7.0 and CuDNN v4.
-- Install Torch.
-- Install the Torch CUDNN V4 library: `git clone https://github.com/soumith/cudnn.torch; cd cudnn; git co R4; luarocks make` This will give you `cudnn.SpatialBatchNormalization`, which helps save quite a lot of memory.
-- Install nninit: `luarocks install nninit`.
+- Install Torch:
+```
+git clone https://github.com/torch/distro.git ~/torch --recursive
+pushd ~/torch
+bash install-deps
+./install.sh
+popd
+```
+- install torch cudnn and nninit:
+```
+luarocks install cudnn
+luarocks install nninit
+```
 - Setup python (tested on 2.7 for now; 3.4 will follow):
 ```
 virtualenv -p python27 env27
