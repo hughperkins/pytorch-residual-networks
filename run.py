@@ -99,6 +99,22 @@ while True:
   # we have to populate batchInputs and batchLabels :-(
   # seems there is a bunch of preprocessing to do :-P
   # https://github.com/gcr/torch-residual-networks/blob/bc1bafff731091bb382bece58d8252291bfbf206/data/cifar-dataset.lua#L56-L75
+
+  # so we have to do:
+  # - randomly sample batchSize inputs, with replacement (both between batches, and within batches)
+  # - random translate by up to 4 horiz (+ve/-ve) and vert (+ve/-ve)  (in the paper, this is described as
+  #   adding 4-padding, then cutting 32x32 patch)
+  # - randomly flip horizontally
+
+  # draw samples
+  indexes = np.random.randint(NTrain, size=(batchSize))
+  batchInputs = trainData[indexes]
+  batchLabels = trainLabels[indexes]
+
+  # TODO: translate
+
+  # TODO: flip
+
   residualTrainer.trainBatch(learningRate, batchInputs, batchLabels)
   epoch += 1
 
