@@ -47,10 +47,10 @@ function ResidualTrainer.__init(self, opt) -- opt is a dictionary, with values a
 
   -- Residual network.
   -- Input: 3x32x32
-  local N = opt.Nsize
+--  local N = opt.Nsize
   local model = nil
   if opt.loadFrom == nil or opt.loadFrom == "" then
-    model = residual_model.create()
+    model = residual_model.create(opt.Nsize)
     model:cuda()
     --print(#model:forward(torch.randn(100, 3, 32,32):cuda()))
   else

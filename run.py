@@ -58,7 +58,7 @@ trainLabels = None
 NTrain = None
 for i in range(num_datafiles):
   d = loadPickle(join(data_dir, 'data_batch_%s' % (i+1)))
-  dataLength = d['labels'].shape[0]
+  dataLength = d['data'].shape[0]
   NTrain = num_datafiles * dataLength
   if trainData is None:
     trainData = np.zeros((NTrain, inputPlanes, inputWidth, inputHeight), np.float32)
