@@ -19,7 +19,7 @@ freely, subject to the following restrictions:
 
 History:
 - originally written by Michael Wilber, to run directly from lua/torch
-- modified by Hugh Perkins, to run from python, via python
+- modified by Hugh Perkins, to run from python, via pytorch
 --]]
 
 require 'os'
@@ -40,9 +40,9 @@ require 'residual_model'
 --]]
 --print(opt)
 
-local ResidualNet = torch.class('ResidualNet)
+local ResidualTrainer = torch.class('ResidualTrainer)
 
-function ResidualNet.__init(self, opt) -- opt is a dictionary, with values as per above 'lapp' section
+function ResidualTrainer.__init(self, opt) -- opt is a dictionary, with values as per above 'lapp' section
   self.opt = opt
 
   -- Residual network.
@@ -95,7 +95,7 @@ function ResidualNet.__init(self, opt) -- opt is a dictionary, with values as pe
   self.gradients = gradients
 end
 
-function ResidualNet.forwardBackwardBatch(self, inputs, labels)
+function ResidualTrainer.forwardBackwardBatch(self, inputs, labels)
    local model = self.model
    local gradients = self.gradients
    local sgdState = self.sgdState
@@ -132,7 +132,7 @@ function ResidualNet.forwardBackwardBatch(self, inputs, labels)
    return loss_val, gradients, inputs:size(1) * N
 end
 
-function ResidualNet.initTraining(self, epochSize)
+function ResidualTrainer.initTraining(self, epochSize)
   self.epochSize = epochSize
 
   local sgdState = self.sgdState
@@ -151,7 +151,7 @@ function ResidualNet.initTraining(self, epochSize)
   end
 end
 
---function ResidualNet.trainBatch(self)
+--function ResidualTrainer.trainBatch(self)
 --  local weights = self.weights
 --  local sgdState = self.sgdState
 --  local epochSize = self.epochSize
@@ -178,7 +178,7 @@ end
 --  end
 --end
 
-function ResidualNet.predict(self, batch)
+function ResidualTrainer.predict(self, batch)
   local model = self.model
 
   print("Evaluating...")
