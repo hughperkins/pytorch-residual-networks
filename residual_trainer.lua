@@ -40,7 +40,7 @@ require 'residual_model'
 --]]
 --print(opt)
 
-local ResidualTrainer = torch.class('ResidualTrainer)
+local ResidualTrainer = torch.class('ResidualTrainer')
 
 function ResidualTrainer.__init(self, opt) -- opt is a dictionary, with values as per above 'lapp' section
   self.opt = opt
