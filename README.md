@@ -1,15 +1,10 @@
 Deep Residual Learning for Image Recognition
 ============================================
 
-Fork-specific:
-- this fork is an in-progress (not ready for use yet) port of Michael Wilber's torch-residual-networks to
-run also from python, using pytorch.  The network will still be in lua, the data loading and preprocessing
-will be in python.  Data loading and preprocessing will be for cifar only, though the network itself
-could be used with any data and preprocessing plausibly, which you can customize on the python side, in
-python.
+This is a pytorch implementation of ["Deep Residual Learning for Image Recognition",Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun](http://arxiv.org/abs/1512.03385) the winners of the 2015 ILSVRC and COCO challenges.
 
-
-This is a Torch implementation of ["Deep Residual Learning for Image Recognition",Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun](http://arxiv.org/abs/1512.03385) the winners of the 2015 ILSVRC and COCO challenges.
+It's forked from Michael Wilber's torch-residual-networks.  The data loading and preprocessing have been moved from
+the lua side into the python side, so you're free to load different data, change the preprocessing, and so on.
 
 **What's working:** CIFAR converges, as per the paper.
 
