@@ -80,8 +80,8 @@ def loadData(data_dir, num_datafiles):
   testData = np.zeros((NTest, inputPlanes, inputWidth, inputHeight), np.float32)
   testLabels = np.zeros(NTest, np.uint8)
   data = d['data'].reshape(dataLength, inputPlanes, inputWidth, inputHeight)
-  testData = data
-  testLabels = d['labels']
+  testData[:] = data
+  testLabels[:] = d['labels']
 
   return NTrain, trainData, trainLabels, NTest, testData, testLabels
 
@@ -101,10 +101,15 @@ print('data loaded :-)')
 mean = trainData.mean()
 std = trainData.std()
 
-print('mean', mean, 'std', std)
-
 trainData -= mean
 trainData /= std
+
+testData -= mean
+testData /= std
+
+print('data normalized check new mean/std:')
+print('  trainmean=%s trainstd=%s testmean=%s teststd=%s' %
+      (trainData.mean(), trainData.std(), testData.mean(), testData.std()))
 
 # now we just have to call the lua class I think :-)
 
