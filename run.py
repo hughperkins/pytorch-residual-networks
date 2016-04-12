@@ -125,7 +125,7 @@ while True:
   learningRate = epochToLearningRate(epoch)
   epochLoss = 0
 #  batchInputs 
-  last = time.clock()
+  last = time.time()
   for b in range(batchesPerEpoch):
     # we have to populate batchInputs and batchLabels :-(
     # seems there is a bunch of preprocessing to do :-P
@@ -166,7 +166,7 @@ while True:
     epochLoss += loss
 
     if devMode:
-      now = time.clock()
+      now = time.time()
       duration = now - last
       print('batch time', duration)
       last = now
