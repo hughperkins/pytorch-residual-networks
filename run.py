@@ -161,6 +161,12 @@ while True:
       if random.randint(0,1) == 1:
         batchInputs[i] = np.fliplr(batchInputs[i].transpose(1,2,0)).transpose(2,0,1)
 
+    if devMode:
+      now = time.time()
+      duration = now - last
+      print('preprocess time', duration)
+      last = now
+
     loss = residualTrainer.trainBatch(learningRate, batchInputs, batchLabels)
     print('  epoch %s batch %s/%s loss %s' %(epoch, b, batchesPerEpoch, loss))
     epochLoss += loss
