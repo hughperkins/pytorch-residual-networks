@@ -59,6 +59,7 @@ function TrainingHelpers.trainForever(forwardBackwardBatch, weights, sgdState, e
    if sgdState.whichOptimMethod then
        whichOptimMethod = optim[sgdState.whichOptimMethod]
    end
+   local last = sys.clock()
    while true do -- Each epoch
       collectgarbage(); collectgarbage()
       -- Run forward and backward pass on inputs and labels
@@ -79,6 +80,10 @@ function TrainingHelpers.trainForever(forwardBackwardBatch, weights, sgdState, e
          if afterEpoch then afterEpoch() end
          print("\n\n----- Epoch "..sgdState.epochCounter.." -----")
       end
+      local now = sys.clock()
+      local batchTime = now - last
+      print('batchTime', batchTime)
+      last = now
    end
 end
 
