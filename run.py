@@ -20,7 +20,7 @@ from os.path import join
 from docopt import docopt
 import numpy as np
 import PyTorchHelpers
-pyversion = platform.python_version_tuple()[0]
+pyversion = int(platform.python_version_tuple()[0])
 if pyversion == 2:
   import cPickle
 else:
