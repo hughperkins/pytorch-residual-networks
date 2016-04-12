@@ -56,9 +56,9 @@ cd ~/pytorch-residual-networks
 
 ## Changes
 
-2016 April 17:
+2016 April 12:
 - working now :-)
 
-2016 April 16:
+2016 April 11:
 - first forked from https://github.com/gcr/torch-residual-networks/network
 
