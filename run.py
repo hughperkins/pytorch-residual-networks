@@ -1,6 +1,5 @@
 """
-This is being tested only on python 2.7 for now.  python 3.4 will surely follow in the future (or if
-you create an appropriate pull request :-) )
+Trains cifar on residual network
 
 Usage:
   run.py [options]
