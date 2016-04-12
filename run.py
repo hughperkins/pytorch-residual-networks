@@ -15,6 +15,7 @@ import platform
 import sys
 import os
 import random
+import time
 from os import path
 from os.path import join
 from docopt import docopt
@@ -124,6 +125,7 @@ while True:
   learningRate = epochToLearningRate(epoch)
   epochLoss = 0
 #  batchInputs 
+  last = time.clock()
   for b in range(batchesPerEpoch):
     # we have to populate batchInputs and batchLabels :-(
     # seems there is a bunch of preprocessing to do :-P
@@ -162,6 +164,12 @@ while True:
     loss = residualTrainer.trainBatch(learningRate, batchInputs, batchLabels)
     print('  epoch %s batch %s/%s loss %s' %(epoch, b, batchesPerEpoch, loss))
     epochLoss += loss
+
+    if devMode:
+      now = time.clock()
+      duration = now - last
+      print('batch time', duration)
+      last = now
 
   # evaluate on test data
   numTestBatches = NTest // batchSize
