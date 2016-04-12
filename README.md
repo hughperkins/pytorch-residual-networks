@@ -34,8 +34,8 @@ luarocks install nninit
 - Setup python (tested on 2.7 for now; 3.4 will follow):
 ```
 sudo apt-get install python2.7-dev
-virtualenv -p python2.7 env27
-source env27/bin/activate
+virtualenv -p python2.7 ~/env27
+source ~/env27/bin/activate
 pip install docopt
 pip install numpy
 ```
