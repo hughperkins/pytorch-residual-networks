@@ -6,10 +6,11 @@ Usage:
   run.py [options]
 
 Options:
-  --batchSize BATCHSIZE      batchsize [default: 128]
+  --batchsize BATCHSIZE      batchsize [default: 128]
   --loadfrom LOADFROM        load from this model file [default: None]
   --numlayergroups NUMLAYERGROUPS    number layer groups [default: 3]
 """
+
 from __future__ import print_function, division
 import platform
 import sys
@@ -19,6 +20,11 @@ from os.path import join
 from docopt import docopt
 import numpy as np
 import PyTorchHelpers
+pyversion = platform.python_version_tuple()[0]
+if pyversion == 2:
+  import cPickle
+else:
+  import pickle
 
 
 args = docopt(__doc__)
@@ -36,24 +42,18 @@ inputPlanes = 3
 inputWidth = 32
 inputHeight = 32
 
-pyversion = platform.python_version_tuple()[0]
-
 def loadPickle(path):
   with open(path, 'rb') as f:
     if pyversion == 2:
-      import cPickle
       return cPickle.load(f)
     else:
-      import pickle
-      # not tested, maybe works ok? (no, it doesnt:
-      # "UnicodeDecodeError: 'ascii' codec can't decode byte 0x8b in position 6: ordinal not in range(128)")
-      return pickle.load(f)
+      return {k.decode('utf-8'): v for k,v in pickle.load(f, encoding='bytes').items()}
 
 def epochToLearningRate(epoch):
    # From https://github.com/bgshih/cifar.torch/blob/master/train.lua#L119-L128
-   if epoch < 80 then
+   if epoch < 80:
       return 0.1
-   if epoch < 120 then
+   if epoch < 120:
       return 0.01
    return 0.001
 
@@ -112,6 +112,8 @@ while True:
   batchLabels = trainLabels[indexes]
 
   # TODO: translate
+  xOffs = np.random.randint(-4, 4, size=(batchSize))
+  yOffs = np.random.randint(-4, 4, size=(batchSize))
 
   # TODO: flip
 

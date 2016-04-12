@@ -49,7 +49,7 @@ function ResidualTrainer.__init(self, num_layer_groups)
      dampening   = 0,
      nesterov    = true
   }
-  self.weights, self.gradients = model:getParameters()
+  self.weights, self.gradients = self.model:getParameters()
 end
 
 function ResidualTrainer.loadFrom(self, filepath)
