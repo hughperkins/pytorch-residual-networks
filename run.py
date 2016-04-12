@@ -120,10 +120,9 @@ if devMode:
   batchesPerEpoch = 3  # impatient developer :-P
 epoch = 0
 while True:
-  print('epoch', epoch)
+#  print('epoch', epoch)
   learningRate = epochToLearningRate(epoch)
   epochLoss = 0
-  epochNumRight = 0
   for b in range(batchesPerEpoch):
     # we have to populate batchInputs and batchLabels :-(
     # seems there is a bunch of preprocessing to do :-P
@@ -154,8 +153,8 @@ while True:
   numTestBatches = NTest // batchSize
   if devMode:
     numTestBatches = 3  # impatient developer :-P
-#  testLoss = 0
-  testNumRight = 0
+  testNumTop1Right = 0
+  testNumTop5Right = 0
   testNumTotal = numTestBatches * batchSize
   for b in range(numTestBatches):
     batchInputs = testData[b * batchSize:(b+1) * batchSize]
@@ -163,9 +162,16 @@ while True:
     res = residualTrainer.predict(batchInputs)
     top1 = res['top1'].asNumpyTensor()
     top5 = res['top5'].asNumpyTensor()
-#    print('top1', top1)
-#    print('top5', top5)
+    labelsTiled5 = np.tile(batchLabels.reshape(batchSize, 1), (1, 5))
+    top1_correct = (top1 == batchLabels).sum()
+    top5_correct = (top5 == labelsTiled5).sum()
+    testNumTop1Right += top1_correct
+    testNumTop5Right += top5_correct
+#    print('correct top1=%s top5=%s', top1_correct, top5_correct)
 
-  print('finished epoch', epoch, 'loss', epochLoss)
+  testtop1acc = testNumTop1Right / testNumTotal * 100
+  testtop5acc = testNumTop5Right / testNumTotal * 100
+  print('epoch %s trainloss=%s top1acc=%s top5acc=%s' %
+        (epoch, epochLoss, testtop1acc, testtop5acc))
   epoch += 1
 

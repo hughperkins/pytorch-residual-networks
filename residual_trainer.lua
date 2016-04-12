@@ -91,7 +91,6 @@ function ResidualTrainer.trainBatch(self, learningRate, batchInputs, batchLabels
 end
 
 function ResidualTrainer.predict(self, batchInputs)
-  print("Evaluating...")
   self.model:evaluate()
   local batchSize = batchInputs:size(1)
   collectgarbage(); collectgarbage();
