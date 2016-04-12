@@ -19,7 +19,6 @@ from os import path
 from os.path import join
 from docopt import docopt
 import numpy as np
-import scipy
 import PyTorchHelpers
 pyversion = int(platform.python_version_tuple()[0])
 if pyversion == 2:
@@ -124,6 +123,7 @@ while True:
 #  print('epoch', epoch)
   learningRate = epochToLearningRate(epoch)
   epochLoss = 0
+#  batchInputs 
   for b in range(batchesPerEpoch):
     # we have to populate batchInputs and batchLabels :-(
     # seems there is a bunch of preprocessing to do :-P
@@ -140,16 +140,30 @@ while True:
     batchInputs = trainData[indexes]
     batchLabels = trainLabels[indexes]
 
-    # TODO: translate
-    xOffs = np.random.randint(-4, 4, size=(batchSize))
-    yOffs = np.random.randint(-4, 4, size=(batchSize))
+#    batchInputs = np.zeros(batchSize, numPlanes, inputWidth, inputHeight, dtype=np.float32)
+
+#    # TODO: translate
+##    xOffs = np.random.randint(-4, 4, size=(batchSize))
+##    yOffs = np.random.randint(-4, 4, size=(batchSize))
+#    for i in range(batchSize):
+#       local input = batchInputs[i]
+#       index = indexes[i]
+##       input:zero()
+#       xoffs, yoffs = random.randint(-4,4), random.randint(-4,4)
+#       input_y = [max(1,   1 + yoffs), min(32, 32 + yoffs)]
+#       data_y = [max(1,   1 - yoffs), min(32, 32 - yoffs)]
+#       input_x = [max(1,   1 + xoffs), min(32, 32 + xoffs)]
+#       data_x = [max(1,   1 - xoffs), min(32, 32 - xoffs)]
+#       xmin, xmax = max(1, xoffs),  min(32, 32+xoffs)
+
+#       input[{ {}, input_y, input_x }] = trainData[index][{ {}, data_y, data_x }]
 
     # flip
     for i in range(batchSize):
       flip = random.randint(0,1)
       if flip == 1:
         image = batchInputs[i]
-        batchInputs[i] = scipy.fliplr(image.transpose(1,2,0)).transpose(2,0,1)
+        batchInputs[i] = np.fliplr(image.transpose(1,2,0)).transpose(2,0,1)
 
     loss = residualTrainer.trainBatch(learningRate, batchInputs, batchLabels)
     print('  epoch %s batch %s/%s loss %s' %(epoch, b, batchesPerEpoch, loss))
