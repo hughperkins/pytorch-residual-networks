@@ -95,6 +95,7 @@ trainData /= std
 
 epoch = 0
 while True:
+  print('epoch', epoch)
   learningRate = epochToLearningRate(epoch)
   # we have to populate batchInputs and batchLabels :-(
   # seems there is a bunch of preprocessing to do :-P

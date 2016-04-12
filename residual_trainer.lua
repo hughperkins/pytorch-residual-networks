@@ -78,7 +78,7 @@ function ResidualTrainer.trainBatch(self, learningRate, batchInputs, batchLabels
   self.model:training()
   self.gradients:zero()
   local y = self.model:forward(inputscu)
-  local loss_val = loss_val + self.loss:forward(y, labelscu)
+  local loss_val = self.loss:forward(y, labelscu)
   local df_dw = self.loss:backward(y, labelscu)
   self.model:backward(inputscu, df_dw)
 
