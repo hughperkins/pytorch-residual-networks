@@ -137,33 +137,27 @@ while True:
 
     # draw samples
     indexes = np.random.randint(NTrain, size=(batchSize))
-    batchInputs = trainData[indexes]
+
+    batchInputs = np.zeros((batchSize, inputPlanes, inputWidth, inputHeight), dtype=np.float32)
     batchLabels = trainLabels[indexes]
 
-#    batchInputs = np.zeros(batchSize, numPlanes, inputWidth, inputHeight, dtype=np.float32)
+    # translate (translate directly into batch images)
+    for i in range(batchSize):
+       srcIdx = indexes[i]
+       xoffs, yoffs = random.randint(-4,4), random.randint(-4,4)
+       batch_y = [max(1,   1 + yoffs), min(32, 32 + yoffs)]
+       src_y = [max(1,   1 - yoffs), min(32, 32 - yoffs)]
+       batch_x = [max(1,   1 + xoffs), min(32, 32 + xoffs)]
+       src_x = [max(1,   1 - xoffs), min(32, 32 - xoffs)]
+       xmin, xmax = max(1, xoffs),  min(32, 32+xoffs)
 
-#    # TODO: translate
-##    xOffs = np.random.randint(-4, 4, size=(batchSize))
-##    yOffs = np.random.randint(-4, 4, size=(batchSize))
-#    for i in range(batchSize):
-#       local input = batchInputs[i]
-#       index = indexes[i]
-##       input:zero()
-#       xoffs, yoffs = random.randint(-4,4), random.randint(-4,4)
-#       input_y = [max(1,   1 + yoffs), min(32, 32 + yoffs)]
-#       data_y = [max(1,   1 - yoffs), min(32, 32 - yoffs)]
-#       input_x = [max(1,   1 + xoffs), min(32, 32 + xoffs)]
-#       data_x = [max(1,   1 - xoffs), min(32, 32 - xoffs)]
-#       xmin, xmax = max(1, xoffs),  min(32, 32+xoffs)
-
-#       input[{ {}, input_y, input_x }] = trainData[index][{ {}, data_y, data_x }]
+       batchInputs[i][:, batch_y[0]:batch_y[1], batch_x[0]:batch_x[1]] = \
+         trainData[srcIdx][:, src_y[0]:src_y[1], src_x[0]:src_x[1]]
 
     # flip
     for i in range(batchSize):
-      flip = random.randint(0,1)
-      if flip == 1:
-        image = batchInputs[i]
-        batchInputs[i] = np.fliplr(image.transpose(1,2,0)).transpose(2,0,1)
+      if random.randint(0,1) == 1:
+        batchInputs[i] = np.fliplr(batchInputs[i].transpose(1,2,0)).transpose(2,0,1)
 
     loss = residualTrainer.trainBatch(learningRate, batchInputs, batchLabels)
     print('  epoch %s batch %s/%s loss %s' %(epoch, b, batchesPerEpoch, loss))
