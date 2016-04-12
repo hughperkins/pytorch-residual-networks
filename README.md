@@ -46,7 +46,12 @@ cd ~/pytorch
 source ~/torch/install/bin/torch-activate
 ./build.sh
 ```
-- Download cifar dataset, simply run: `./download.sh`
+- clone this repo:
+```
+git clone https://github.com/hughperkins/pytorch-residual-networks ~/pytorch-residual-networks
+cd ~/pytorch-residual-networks
+```
+- Download cifar dataset: `./download.sh`
 - Run `python run.py`
 
 ## Changes
