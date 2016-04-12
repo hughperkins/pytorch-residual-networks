@@ -98,8 +98,8 @@ function ResidualTrainer.predict(self, batchInputs)
   local y = self.model:forward(batchInputs:cuda()):float()
   local _, indices = torch.sort(y, 2, true)
   -- indices has shape (batchSize, nClasses)
-  local top1 = indices:select(2, 1)
-  local top5 = indices:narrow(2, 1,5)
-  return top1, top5
+  local top1 = indices:select(2, 1):byte()
+  local top5 = indices:narrow(2, 1,5):byte()
+  return {top1=top1, top5=top5}  -- becomes a python dict, containing the tensors
 end
 

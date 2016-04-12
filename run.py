@@ -36,7 +36,9 @@ num_layer_groups = int(args['--numlayergroups'])
 
 data_dir = 'cifar-10-batches-py'
 num_datafiles = 5
+devMode = False
 if 'DEVMODE' in os.environ and os.environ['DEVMODE'] == '1':
+  devMode = True
   num_datafiles = 1 # cos I lack patience during dev :-P
 
 inputPlanes = 3
@@ -114,6 +116,8 @@ print('  trainmean=%s trainstd=%s testmean=%s teststd=%s' %
 # now we just have to call the lua class I think :-)
 
 batchesPerEpoch = NTrain // batchSize
+if devMode:
+  batchesPerEpoch = 3  # impatient developer :-P
 epoch = 0
 while True:
   print('epoch', epoch)
@@ -145,6 +149,23 @@ while True:
     loss = residualTrainer.trainBatch(learningRate, batchInputs, batchLabels)
     print('  epoch %s batch %s/%s loss %s' %(epoch, b, batchesPerEpoch, loss))
     epochLoss += loss
+
+  # evaluate on test data
+  numTestBatches = NTest // batchSize
+  if devMode:
+    numTestBatches = 3  # impatient developer :-P
+#  testLoss = 0
+  testNumRight = 0
+  testNumTotal = numTestBatches * batchSize
+  for b in range(numTestBatches):
+    batchInputs = testData[b * batchSize:(b+1) * batchSize]
+    batchLabels = testLabels[b * batchSize:(b+1) * batchSize]
+    res = residualTrainer.predict(batchInputs)
+    top1 = res['top1'].asNumpyTensor()
+    top5 = res['top5'].asNumpyTensor()
+#    print('top1', top1)
+#    print('top5', top5)
+
   print('finished epoch', epoch, 'loss', epochLoss)
   epoch += 1
 
