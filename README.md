@@ -30,8 +30,12 @@ luarocks install nninit
 sudo apt-get install python2.7-dev
 virtualenv -p python2.7 env27
 source env27/bin/activate
-pip install docopt
-pip install numpy
+pip install -U pip
+pip install -U wheel
+pip install -U setuptools
+pip install -U docopt
+pip install -U numpy
+pip install -U scipy
 ```
 - Install pytorch:
 ```

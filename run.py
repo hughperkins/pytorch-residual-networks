@@ -14,10 +14,12 @@ from __future__ import print_function, division
 import platform
 import sys
 import os
+import random
 from os import path
 from os.path import join
 from docopt import docopt
 import numpy as np
+import scipy
 import PyTorchHelpers
 pyversion = int(platform.python_version_tuple()[0])
 if pyversion == 2:
@@ -142,7 +144,12 @@ while True:
     xOffs = np.random.randint(-4, 4, size=(batchSize))
     yOffs = np.random.randint(-4, 4, size=(batchSize))
 
-    # TODO: flip
+    # flip
+    for i in range(batchSize):
+      flip = random.randint(0,1)
+      if flip == 1:
+        image = batchInputs[i]
+        batchInputs[i] = scipy.fliplr(image.transpose(1,2,0)).transpose(2,0,1)
 
     loss = residualTrainer.trainBatch(learningRate, batchInputs, batchLabels)
     print('  epoch %s batch %s/%s loss %s' %(epoch, b, batchesPerEpoch, loss))
