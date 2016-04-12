@@ -36,7 +36,8 @@ num_layer_groups = int(args['--numlayergroups'])
 
 data_dir = 'cifar-10-batches-py'
 num_datafiles = 5
-num_datafiles = 1 # cos I lack patience during dev :-P
+if 'DEVMODE' in os.environ and os.environ['DEVMODE'] == '1':
+  num_datafiles = 1 # cos I lack patience during dev :-P
 
 inputPlanes = 3
 inputWidth = 32
@@ -79,6 +80,8 @@ for i in range(num_datafiles):
   data = d['data'].reshape(dataLength, inputPlanes, inputWidth, inputHeight)
   trainData[i * dataLength:(i+1) * dataLength] = data
   trainLabels[i * dataLength:(i+1) * dataLength] = d['labels']
+
+# load test data
 
 print('data loaded :-)')
 
