@@ -58,6 +58,33 @@ def epochToLearningRate(epoch):
       return 0.01
    return 0.001
 
+def loadData(data_dir, num_datafiles):
+  # load training data
+  trainData = None
+  trainLabels = None
+  NTrain = None
+  for i in range(num_datafiles):
+    d = loadPickle(join(data_dir, 'data_batch_%s' % (i+1)))
+    dataLength = d['data'].shape[0]
+    NTrain = num_datafiles * dataLength
+    if trainData is None:
+      trainData = np.zeros((NTrain, inputPlanes, inputWidth, inputHeight), np.float32)
+      trainLabels = np.zeros(NTrain, np.uint8)
+    data = d['data'].reshape(dataLength, inputPlanes, inputWidth, inputHeight)
+    trainData[i * dataLength:(i+1) * dataLength] = data
+    trainLabels[i * dataLength:(i+1) * dataLength] = d['labels']
+
+  # load test data
+  d = loadPickle(join(data_dir, 'test_batch'))
+  NTest = d['data'].shape[0]
+  testData = np.zeros((NTest, inputPlanes, inputWidth, inputHeight), np.float32)
+  testLabels = np.zeros(NTest, np.uint8)
+  data = d['data'].reshape(dataLength, inputPlanes, inputWidth, inputHeight)
+  testData = data
+  testLabels = d['labels']
+
+  return NTrain, trainData, trainLabels, NTest, testData, testLabels
+
 
 # load the lua class
 ResidualTrainer = PyTorchHelpers.load_lua_class('residual_trainer.lua', 'ResidualTrainer')
@@ -66,22 +93,7 @@ if loadFrom is not None:
   residualTrainer.loadFrom(loadFrom)
 print('residualTrainer', residualTrainer)
 
-# load training data
-trainData = None
-trainLabels = None
-NTrain = None
-for i in range(num_datafiles):
-  d = loadPickle(join(data_dir, 'data_batch_%s' % (i+1)))
-  dataLength = d['data'].shape[0]
-  NTrain = num_datafiles * dataLength
-  if trainData is None:
-    trainData = np.zeros((NTrain, inputPlanes, inputWidth, inputHeight), np.float32)
-    trainLabels = np.zeros(NTrain, np.uint8)
-  data = d['data'].reshape(dataLength, inputPlanes, inputWidth, inputHeight)
-  trainData[i * dataLength:(i+1) * dataLength] = data
-  trainLabels[i * dataLength:(i+1) * dataLength] = d['labels']
-
-# load test data
+NTrain, trainData, trainLabels, NTest, testData, testLabels = loadData(data_dir, num_datafiles)
 
 print('data loaded :-)')
 
