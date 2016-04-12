@@ -16,10 +16,15 @@ please see https://github.com/gcr/torch-residual-networks/network
 - Install Torch:
 ```
 git clone https://github.com/torch/distro.git ~/torch --recursive
-pushd ~/torch
-bash install-deps
+cd ~/torch
+# install dependencies.  To install everything:
+  bash install-deps
+# Or, if you're on ubuntu, you only need the following dependencies:
+  sudo apt-get update -y
+  sudo apt-get install -y wget git gcc g++ cmake libffi-dev \
+       libblas-dev liblapack-dev libatlas-base-dev gfortran libreadline-dev
+# install torch
 ./install.sh
-popd
 ```
 - install torch cudnn and nninit:
 ```
@@ -36,11 +41,10 @@ pip install numpy
 ```
 - Install pytorch:
 ```
-pushd ..
-git clone https://github.com/hughperkins/pytorch
-cd pytorch
+git clone https://github.com/hughperkins/pytorch ~/pytorch
+cd ~/pytorch
+source ~/torch/install/bin/torch-activate
 ./build.sh
-popd
 ```
 - Download cifar dataset, simply run: `./download.sh`
 - Run `python run.py`
