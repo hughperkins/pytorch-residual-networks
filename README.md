@@ -1,13 +1,14 @@
 # Deep Residual Learning for Image Recognition
 
-STATUS: DRAFT, IN PROGRESS. For the real (torch/lua) version, see https://github.com/gcr/torch-residual-networks/network for now please :-)
-
 This is a pytorch implementation of ["Deep Residual Learning for Image Recognition",Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun](http://arxiv.org/abs/1512.03385) the winners of the 2015 ILSVRC and COCO challenges.
 
-It's forked from Michael Wilber's torch-residual-networks.  The data loading and preprocessing have been moved from
-the lua side into the python side, so you're free to load different data, change the preprocessing, and so on.
+It's forked from Michael Wilber's [torch-residual-networks](https://github.com/gcr/torch-residual-networks) .
+The data loading and preprocessing have been moved from
+the lua side into the python side, so you can easily modify the data loading and preprocessing, using the python
+tools and libraries you're used to using.
 
-For full readme please see https://github.com/gcr/torch-residual-networks/network (I've removed it from here, so it is clear who 'I' is :-) )
+For full readme on the original torch-residual-networks library,
+please see https://github.com/gcr/torch-residual-networks/network
 
 ## How to use
 
@@ -45,6 +46,9 @@ popd
 - Run `python run.py`
 
 ## Changes
+
+2016 April 17:
+- working now :-)
 
 2016 April 16:
 - first forked from https://github.com/gcr/torch-residual-networks/network
