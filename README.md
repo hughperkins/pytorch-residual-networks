@@ -56,7 +56,8 @@ cd ~/pytorch-residual-networks
 
 ## Possible issues, and how to deal with them
 
-
+- Something about `no file './cunn.lua'`
+  - reinstall cunn `luarocks install cunn`
 
 ## Changes
 

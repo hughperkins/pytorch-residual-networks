@@ -16,6 +16,7 @@ import sys
 import os
 import random
 import time
+import readline
 from os import path
 from os.path import join
 from docopt import docopt
